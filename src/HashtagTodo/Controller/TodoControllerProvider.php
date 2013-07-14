@@ -20,11 +20,11 @@ class TodoControllerProvider implements ControllerProviderInterface
             foreach ($app['tododao']->findAll() as $k => $v) {
                 $result[] = $v->toArray();
             }
-            return json_encode($result);
+            return $app->json($result);
     	});
 
     	$controllers->get('/{id}', function ($id) use ($app) {
-    		return json_encode($app['tododao']->findOne($id)->toArray());
+    		return $app->json($app['tododao']->findOne($id)->toArray());
     	});
 
         $controllers->post('/', function (Request $req) use ($app) {
@@ -32,7 +32,7 @@ class TodoControllerProvider implements ControllerProviderInterface
             $todo->setTitle($req->request->get('title'));
             $todo->setDescription($req->request->get('description'));
             $app['tododao']->save($todo);
-            return json_encode($todo->toArray());
+            return $app->json($todo->toArray());
         });
 
         $controllers->post('/{id}', function ($id) use ($app) {
@@ -44,7 +44,7 @@ class TodoControllerProvider implements ControllerProviderInterface
                 $todo->setDescription($req->request->get('description'));
             }
             $app['tododao']->save($todo);
-            return json_encode($todo->toArray());
+            return $app->json($todo->toArray());
         });
 
     	$controllers->put('/{id}', function ($id) use ($app) {
@@ -53,7 +53,7 @@ class TodoControllerProvider implements ControllerProviderInterface
             $todo->setTitle($req->request->get('title'));
             $todo->setDescription($req->request->get('description'));
             $app['tododao']->save($todo);
-            return json_encode($todo->toArray());
+            return $app->json($todo->toArray());
     	});
 
     	$controllers->delete('/{id}', function ($id) use ($app) {

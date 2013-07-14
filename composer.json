@@ -9,6 +9,10 @@
         "silex/silex": "1.*",
         "sigh/simpledb": "*"
     },
+    "require-dev": {
+        "phpunit/phpunit": "*",
+        "symfony/browser-kit": "*"
+    },
     "autoload": {
         "psr-0": {"HashtagTodo\\": "src/"}
     }
