@@ -1,0 +1,15 @@
+{
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/cybrown/simpledb.git"
+        }
+    ],
+    "require": {
+        "silex/silex": "1.*",
+        "sigh/simpledb": "*"
+    },
+    "autoload": {
+        "psr-0": {"HashtagTodo\\": "src/"}
+    }
+}
