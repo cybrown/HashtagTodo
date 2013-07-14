@@ -11,34 +11,42 @@ use \Sigh\SimpleDB\Handlers\OneFileJsonHandler;
 use \HashtagTodo\Controller\TodoControllerProvider;
 use \HashtagTodo\Dao\TodoSimpledbDao;
 
-date_default_timezone_set("UTC");
-
 $app = new Silex\Application();
 
-$app['db_path'] = 'db.json';
-
-$app['sdb'] = $app->share(function () use ($app) {
-	$handler = new OneFileJsonHandler($app['db_path'], true);
-	$sdb = new Database($handler);
-	$sdb->open();
-	return $sdb;
-});
-
+// Parameters
+$app['db_path'] = __DIR__ . '/db.json';
 $app['todo_tablename'] = 'todos';
 
-$app['tododao'] = $app->share(function () use ($app) {
-	$tododao = new \HashtagTodo\Dao\TodoSimpledbDao($app['sdb'], $app['todo_tablename']);
-	return $tododao;
+
+// Services
+$app['sdb'] = $app->share(function () use ($app) {
+	return new Database(new OneFileJsonHandler($app['db_path'], true));
 });
 
-$app->mount('/', new TodoControllerProvider());
+$app['tododao'] = $app->share(function () use ($app) {
+	return new \HashtagTodo\Dao\TodoSimpledbDao($app['sdb'], $app['todo_tablename']);
+});
 
-$app->get('/hello/{name}', function ($name) use ($app) {
-    return 'Hello '.$app->escape($name);
+
+// Initialisation and finalisation
+$app->before(function (Request $request) use ($app) {
+	date_default_timezone_set("UTC");
+    $app['sdb']->open();
 });
 
 $app->finish(function (Request $request, Response $response) use ($app) {
     $app['sdb']->close();
 });
 
+
+// Routes
+$app->mount('/', new TodoControllerProvider());
+
+$app->get('/hello/{name}', function ($name) use ($app) {
+    return 'Hello '.$app->escape($name);
+});
+
+
 $app->run();
+
+return $app;
