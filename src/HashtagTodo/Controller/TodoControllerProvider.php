@@ -24,7 +24,11 @@ class TodoControllerProvider implements ControllerProviderInterface
     	});
 
     	$controllers->get('/{id}', function ($id) use ($app) {
-            return $app->json($app['tododao']->findOne($id)->toArray());
+            $object = $app['tododao']->findOne($id);
+            if ($object == null) {
+                $app->abort(404, "Todo $id does not exist.");
+            }
+            return $app->json($object->toArray());
     	});
 
         $controllers->post('/', function (Request $req) use ($app) {
