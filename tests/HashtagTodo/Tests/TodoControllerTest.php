@@ -33,7 +33,7 @@ class TodoControllerTest extends WebTestCase
         $client = $this->createClient();
         $client->request('GET', '/' . $id);
         $this->assertTrue($client->getResponse()->isOK());
-        $jsonResponse = json_decode($client->getResponse()->getContent(), JSON_OBJECT_AS_ARRAY);
+        $jsonResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertArrayHasKey('id', $jsonResponse);
         $this->assertArrayHasKey('title', $jsonResponse);
         $this->assertArrayHasKey('description', $jsonResponse);
@@ -51,7 +51,7 @@ class TodoControllerTest extends WebTestCase
         $client = $this->createClient();
         $client->request('GET', '/');
         $this->assertTrue($client->getResponse()->isOk());
-        $jsonResponse = json_decode($client->getResponse()->getContent(), JSON_OBJECT_AS_ARRAY);
+        $jsonResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertTrue(is_array($jsonResponse));
         $this->assertCount(1, $jsonResponse);
         $this->assertArrayHasKey('id', $jsonResponse[0]);
@@ -74,7 +74,7 @@ class TodoControllerTest extends WebTestCase
             "description" => 'otherdescription'
         ));
         $this->assertTrue($client->getResponse()->isOk());
-        $jsonResponse = json_decode($client->getResponse()->getContent(), JSON_OBJECT_AS_ARRAY);
+        $jsonResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertArrayHasKey('id', $jsonResponse);
         $this->assertArrayHasKey('title', $jsonResponse);
         $this->assertArrayHasKey('description', $jsonResponse);
