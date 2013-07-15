@@ -47,7 +47,7 @@ class TodoControllerProvider implements ControllerProviderInterface
             return $app->json($todo->toArray());
         });
 
-    	$controllers->put('/{id}', function ($id) use ($app) {
+    	$controllers->put('/{id}', function (Request $req, $id) use ($app) {
             $todo = new Todo();
             $todo->setId($id);
             $todo->setTitle($req->request->get('title'));
