@@ -14,28 +14,29 @@ use \HashtagTodo\Dao\TodoSimpledbDao;
 $app = new Silex\Application();
 
 // Parameters
-$app['db_path'] = __DIR__ . '/db.json';
-$app['todo_tablename'] = 'todos';
+$app['db.path'] = __DIR__ . '/../data/db.json';
+$app['db.todo.tablename'] = 'todos';
+$app['simpledb.pretty'] = false;
 
 
 // Services
-$app['sdb'] = $app->share(function () use ($app) {
-	return new Database(new OneFileJsonHandler($app['db_path'], true));
+$app['simpledb'] = $app->share(function () use ($app) {
+    return new Database(new OneFileJsonHandler($app['db.path'], $app['simpledb.pretty']));
 });
 
 $app['tododao'] = $app->share(function () use ($app) {
-	return new \HashtagTodo\Dao\TodoSimpledbDao($app['sdb'], $app['todo_tablename']);
+    return new TodoSimpledbDao($app['simpledb'], $app['db.todo.tablename']);
 });
 
 
 // Initialisation and finalisation
 $app->before(function (Request $request) use ($app) {
-	date_default_timezone_set("UTC");
-    $app['sdb']->open();
+    date_default_timezone_set("UTC");
+    $app['simpledb']->open();
 });
 
 $app->finish(function (Request $request, Response $response) use ($app) {
-    $app['sdb']->close();
+    $app['simpledb']->close();
 });
 
 
@@ -45,8 +46,5 @@ $app->mount('/', new TodoControllerProvider());
 $app->get('/hello/{name}', function ($name) use ($app) {
     return 'Hello '.$app->escape($name);
 });
-
-
-$app->run();
 
 return $app;
