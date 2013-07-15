@@ -17,7 +17,7 @@ class TodoSimpledbDao implements TodoDaoInterface {
 	}
 
 	public function findOne($id) {
-		return static::hashToTodo($this->sdb[$this->tablename][$id]);
+		return $this->sdb[$this->tablename][$id] == null ? null : static::hashToTodo($this->sdb[$this->tablename][$id]);
 	}
 
 	public function findAll() {
@@ -54,7 +54,7 @@ class TodoSimpledbDao implements TodoDaoInterface {
 		);
 	}
 
-	protected function hashToTodo($hash, $todo = null) {
+	protected function hashToTodo($hash, Todo $todo = null) {
 		if ($todo == null) {
 			$todo = new Todo();
 		}
