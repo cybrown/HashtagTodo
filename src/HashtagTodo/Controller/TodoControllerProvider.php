@@ -24,7 +24,7 @@ class TodoControllerProvider implements ControllerProviderInterface
     	});
 
     	$controllers->get('/{id}', function ($id) use ($app) {
-    		return $app->json($app['tododao']->findOne($id)->toArray());
+            return $app->json($app['tododao']->findOne($id)->toArray());
     	});
 
         $controllers->post('/', function (Request $req) use ($app) {
@@ -58,7 +58,7 @@ class TodoControllerProvider implements ControllerProviderInterface
 
     	$controllers->delete('/{id}', function ($id) use ($app) {
             $app['tododao']->deleteById($id);
-    		return $id;
+            return $id;
     	});
 
     	return $controllers;
