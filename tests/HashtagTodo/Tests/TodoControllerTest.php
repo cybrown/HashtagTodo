@@ -15,7 +15,7 @@ class TodoControllerTest extends WebTestCase
             "description" => "thedescription"
         ));
         $this->assertTrue($client->getResponse()->isOk());
-        $jsonResponse = json_decode($client->getResponse()->getContent(), JSON_OBJECT_AS_ARRAY);
+        $jsonResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertArrayHasKey('id', $jsonResponse);
         $this->assertArrayHasKey('title', $jsonResponse);
         $this->assertArrayHasKey('description', $jsonResponse);

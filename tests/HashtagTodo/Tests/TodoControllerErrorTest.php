@@ -10,7 +10,7 @@ class TodoControllerErrorTest extends WebTestCase
     public function testEmpty() {
         $client = $this->createClient();
         $client->request('GET', '/');
-        $jsonResponse = json_decode($client->getResponse()->getContent(), JSON_OBJECT_AS_ARRAY);
+        $jsonResponse = json_decode($client->getResponse()->getContent(), true);
         $this->assertEmpty($jsonResponse);
     }
     
