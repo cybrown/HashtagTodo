@@ -1,4 +1,4 @@
-composer.lock
-vendor
-src/db.json
+/composer.lock
+/vendor
 /nbproject
+/data
