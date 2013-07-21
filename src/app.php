@@ -11,6 +11,8 @@ use \Sigh\SimpleDB\Handlers\OneFileJsonHandler;
 use \HashtagTodo\Controller\TodoControllerProvider;
 use \HashtagTodo\Dao\TodoSimpledbDao;
 
+date_default_timezone_set("UTC");
+
 $app = new Silex\Application();
 
 // Parameters
@@ -31,7 +33,6 @@ $app['tododao'] = $app->share(function () use ($app) {
 
 // Initialisation and finalisation
 $app->before(function (Request $request) use ($app) {
-    date_default_timezone_set("UTC");
     $app['simpledb']->open();
 });
 
